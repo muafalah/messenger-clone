@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const { userId, isGroup, members, name } = body;
 
     if (!currentUser?.id || !currentUser?.email) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 400 });
     }
 
     if (isGroup && (!members || members.length < 2 || !name)) {
@@ -20,6 +20,7 @@ export async function POST(req: Request) {
     if (isGroup) {
       const newConversation = await prisma.conversation.create({
         data: {
+          name,
           isGroup,
           users: {
             connect: [

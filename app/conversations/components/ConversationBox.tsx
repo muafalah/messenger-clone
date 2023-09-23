@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { FullConversationType } from "@/types";
 import useOtherUser from "@/hooks/useOtherUser";
 import Avatar from "@/components/Avatar/Avatar";
+import AvatarGroup from "@/components/Avatar/AvatarGroup";
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -68,7 +69,11 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
         selected ? "bg-neutral-100" : "bg-white"
       )}
     >
-      <Avatar user={otherUser} />
+      {data.isGroup ? (
+        <AvatarGroup users={data.users} />
+      ) : (
+        <Avatar user={otherUser} />
+      )}
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <div className="flex justify-between items-center mb-1">
@@ -84,7 +89,7 @@ const ConversationBox = ({ data, selected }: ConversationBoxProps) => {
           <p
             className={clsx(
               "truncate text-sm",
-              hasSeen ? "text-gray-500" : "text-black font-medium"
+              hasSeen ? "text-gray-500" : "text-black"
             )}
           >
             {lastMessageText}
