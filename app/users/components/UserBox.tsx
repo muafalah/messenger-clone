@@ -5,6 +5,7 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
 import Avatar from "@/components/Avatar/Avatar";
+import LoadingModal from "@/components/Modal/LoadingModal";
 
 interface UserBoxProps {
   data: User;
@@ -28,19 +29,22 @@ const UserBox = ({ data }: UserBoxProps) => {
   }, [data, router]);
 
   return (
-    <div
-      onClick={handleClick}
-      className="w-full relative flex items-center space-x-3 bg-white px-3 pt-3 pb-2 hover:bg-sky-50 rounded-lg transition cursor-pointer"
-    >
-      <Avatar user={data} />
-      <div className="min-w-0 flex-1">
-        <div className="focus:outline-none">
-          <div className="flex justify-between items-center mb-1">
-            <p className="text-sm font-medium text-gray-900">{data.name}</p>
+    <>
+      {isLoading && <LoadingModal />}
+      <div
+        onClick={handleClick}
+        className="w-full relative flex items-center space-x-3 bg-white px-3 pt-3 pb-2 hover:bg-sky-50 rounded-lg transition cursor-pointer"
+      >
+        <Avatar user={data} />
+        <div className="min-w-0 flex-1">
+          <div className="focus:outline-none">
+            <div className="flex justify-between items-center mb-1">
+              <p className="text-sm font-medium text-gray-900">{data.name}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
